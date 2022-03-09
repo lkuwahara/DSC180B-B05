@@ -6,16 +6,17 @@ from sklearn.model_selection import train_test_split
 from sklearn import metrics
 import matplotlib.pyplot as plt
 import seaborn as sns
-from xgboost import XGBClassifier
+import xgboost as xgb
 
 
 def main(targets):
 
     if 'test' in targets:
-        trips = pd.read_csv('data/trips.csv')
-        utility = pd.read_csv('data/utilityvars.csv')
+        trips = pd.read_csv('trips.csv')
+        utilityvars = pd.read_csv('utilityvars.csv')
 
-        sample1 = utility.sample(n=1000000, random_state=1)
+        sample1 = utilityvars.sample(n=1000000, random_state=1)
+        props = utilityvars['targettripmode'].value_counts() / len(utilityvars)
         size = 500000
         mode1 = utilityvars[utilityvars['targettripmode']==1].sample(n=int(round(size*props[1])), random_state=1)
         mode2 = utilityvars[utilityvars['targettripmode']==2].sample(n=int(round(size*props[2])), random_state=1)
